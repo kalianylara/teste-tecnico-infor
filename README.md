@@ -41,12 +41,10 @@ npm install
 # Configurar variáveis de ambiente
 cp .env.example .env
 
-# Atualizar DATABASE_URL e JWT_SECRET em .env
+# Atualizar variáveis em .env
+# PORT=3000
 # DATABASE_URL=mysql://usuario:senha@localhost:3306/infor_proc-sel
 # JWT_SECRET=sua_chave_secreta
-
-# Executar migrações
-npx prisma migrate dev --name init
 
 # Popular dados iniciais
 npx prisma db seed
