@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id     Int     @id
+  nome   String  @db.VarChar(100)
+  pedidos Pedido[]
+
+  @@map("clientes")
+}
+
+model Pedido {
+  id        Int     @id
+  clienteId Int     @map("cliente_id")
+  valor     Decimal @db.Decimal(10, 2)
+  data      DateTime? @db.Date
+
+  cliente   Cliente     @relation(fields: [clienteId], references: [id])
+  itens     ItensPedido[]
+
+  @@map("pedidos")
+  @@index([clienteId])
+}
+
+model ItensPedido {
+  id        Int     @id
+  pedidoId  Int     @map("pedido_id")
+  produto   String  @db.VarChar(100)
+  quantidade Int
+
+  pedido    Pedido  @relation(fields: [pedidoId], references: [id])
+
+  @@map("itens_pedido")
+  @@index([pedidoId])
+}
+
+model Produto {
+  id        Int     @id
+  descricao String  @db.VarChar(100)
+  preco     Decimal @db.Decimal(10, 2)
+  ativo     Boolean
+
+  @@map("produtos")
+}
